@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>For Neha Giri 💖</title>
+
+<style>
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background: linear-gradient(135deg, #ff6f91, #ff9671);
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        overflow-x: hidden;
+        color: white;
+        text-align: center;
+    }
+
+    .card {
+        background: rgba(255,255,255,0.2);
+        padding: 25px;
+        border-radius: 25px;
+        box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+        max-width: 380px;
+        position: relative;
+    }
+
+    h1 {
+        font-size: 2em;
+        margin-bottom: 10px;
+    }
+
+    .heart {
+        font-size: 60px;
+        animation: beat 1s infinite;
+        margin: 10px 0;
+    }
+
+    @keyframes beat {
+        0%,100% { transform: scale(1); }
+        50% { transform: scale(1.3); }
+    }
+
+    p {
+        font-size: 1.05em;
+    }
+
+    /* Slideshow */
+    .slideshow {
+        width: 100%;
+        height: 230px;
+        border-radius: 15px;
+        overflow: hidden;
+        margin: 15px 0;
+        box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+    }
+
+    .slideshow img {
+        width: 100%;
+        height: 230px;
+        object-fit: cover;
+        display: none;
+    }
+
+    .slideshow img.active {
+        display: block;
+        animation: fade 1.5s;
+    }
+
+    @keyframes fade {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+
+    button {
+        border: none;
+        padding: 12px 22px;
+        font-size: 1em;
+        border-radius: 30px;
+        cursor: pointer;
+        margin: 10px;
+        transition: transform 0.2s;
+    }
+
+    button:hover {
+        transform: scale(1.1);
+    }
+
+    .yes {
+        background: #4CAF50;
+        color: white;
+    }
+
+    .no {
+        background: #ff4d4d;
+        color: white;
+        position: absolute;
+    }
+
+    canvas {
+        position: fixed;
+        top: 0;
+        left: 0;
+        pointer-events: none;
+    }
+</style>
+</head>
+
+<body>
+
+<canvas id="confetti"></canvas>
+
+<div class="card">
+    <h1>Neha Giri 💕</h1>
+    <div class="heart">❤️</div>
+
+    <p>
+        Every moment with you is my favorite ✨<br>
+        Here are some of them 🥰
+    </p>
+
+    <!-- Slideshow -->
+    <div class="slideshow">
+        <img src="photo1.jpg" class="active">
+        <img src="photo2.jpg">
+        <img src="photo3.jpg">
+        <img src="photo4.jpg">
+        <img src="photo5.jpg">
+    </div>
+
+    <h2>Will you be my Valentine, Neha Giri? 💖</h2>
+
+    <button class="yes" onclick="yesClicked()">YES 💍😍</button>
+    <button class="no" id="noBtn">NO 🙈</button>
+</div>
+
+<script>
+/* Slideshow logic */
+let slides = document.querySelectorAll(".slideshow img");
+let index = 0;
+
+setInterval(() => {
+    slides[index].classList.remove("active");
+    index = (index + 1) % slides.length;
+    slides[index].classList.add("active");
+}, 2500);
+
+/* Moving NO button */
+const noBtn = document.getElementById("noBtn");
+
+function moveButton() {
+    const x = Math.random() * (window.innerWidth - 120);
+    const y = Math.random() * (window.innerHeight - 60);
+    noBtn.style.left = x + "px";
+    noBtn.style.top = y + "px";
+}
+
+noBtn.addEventListener("mouseover", moveButton);
+noBtn.addEventListener("click", moveButton);
+
+/* YES click */
+function yesClicked() {
+    alert("Congratulations 🎉💖 Neha Giri, you already are my wife 💍😘");
+    startConfetti();
+}
+
+/* Confetti */
+const canvas = document.getElementById("confetti");
+const ctx = canvas.getContext("2d");
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+let confetti = [];
+
+function startConfetti() {
+    confetti = [];
+    for (let i = 0; i < 200; i++) {
+        confetti.push({
+            x: Math.random() * canvas.width,
+            y: Math.random() * canvas.height,
+            r: Math.random() * 6 + 2,
+            d: Math.random() * 5 + 2,
+            color: `hsl(${Math.random() * 360}, 100%, 50%)`
+        });
+    }
+    animateConfetti();
+}
+
+function animateConfetti() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    confetti.forEach(c => {
+        ctx.beginPath();
+        ctx.fillStyle = c.color;
+        ctx.arc(c.x, c.y, c.r, 0, Math.PI * 2);
+        ctx.fill();
+        c.y += c.d;
+        if (c.y > canvas.height) c.y = 0;
+    });
+    requestAnimationFrame(animateConfetti);
+}
+</script>
+
+</body>
+</html>
